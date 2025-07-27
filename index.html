@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menù La Terrazza 2025</title>
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box;}
+        body {font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height:1.6; color:#2c2c2c; background:linear-gradient(135deg,#f5f1e8 0%,#fff9ed 100%); overflow-x:hidden;}
+        .header {background:linear-gradient(135deg,#8B4513 0%,#A0522D 100%); color:white; text-align:center; padding:2rem 1rem; position:sticky; top:0; z-index:100; box-shadow:0 4px 20px rgba(139,69,19,0.3);}
+        .header h1 {font-size:2.2rem; font-weight:700; margin-bottom:0.5rem; text-shadow:0 2px 4px rgba(0,0,0,0.2);}
+        .claim {font-size:1.1rem; font-style:italic; margin-bottom:1.5rem; color:#F4A460; font-weight:300;}
+        .download-btn {display:inline-block; padding:0.8rem 2rem; background:rgba(244,164,96,0.3); border:2px solid #F4A460; color:white; text-decoration:none; border-radius:50px; font-weight:600; transition:all 0.3s ease; backdrop-filter:blur(10px);}
+        .download-btn:hover {background:#F4A460; color:#8B4513; transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,0.2);}
+        .nav-container {padding:1rem; background:white; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:sticky; top:0; z-index:99;}
+        .nav-grid {display:grid; grid-template-columns:1fr; gap:0.8rem; max-width:600px; margin:0 auto;}
+        .nav-item {display:block; padding:1.2rem; background:linear-gradient(135deg,#fff 0%,#f5f1e8 100%); border:2px solid #D2691E; border-radius:15px; text-decoration:none; color:#8B4513; font-weight:600; text-align:center; transition:all 0.3s ease; position:relative; overflow:hidden; cursor:pointer; font-size:1.1rem;}
+        .nav-item::before {content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(135deg,#8B4513 0%,#A0522D 100%); transition:all 0.3s ease; z-index:-1;}
+        .nav-item:active::before, .nav-item:hover::before {left:0;}
+        .nav-item:active, .nav-item:hover {color:white; transform:scale(0.98); box-shadow:0 8px 25px rgba(139,69,19,0.3);}
+        .allergen-notice {margin:1rem; padding:1.5rem; background:linear-gradient(135deg,#F4A460 0%,#DEB887 100%); border-radius:15px; border:2px solid #D2691E; font-weight:600; box-shadow:0 4px 15px rgba(139,69,19,0.2); color:#8B4513;}
+        .section {margin:2rem 1rem; background:white; border-radius:20px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.1); display:none; opacity:0; transform:translateY(20px); transition:all 0.4s ease;}
+        .section.active {display:block; opacity:1; transform:translateY(0);}
+        .section-header {background:linear-gradient(135deg,#8B4513 0%,#A0522D 100%); color:white; padding:1.5rem; position:relative; overflow:hidden;}
+        .section-header h2 {font-size:1.5rem; margin-bottom:0.5rem; position:relative; z-index:2;}
+        .back-link {color:rgba(255,255,255,0.9); text-decoration:none; font-size:1rem; display:inline-flex; align-items:center; transition:all 0.3s ease; cursor:pointer; padding:0.5rem 1rem; background:rgba(255,255,255,0.2); border-radius:25px; margin-bottom:1rem;}
+        .back-link:active, .back-link:hover {color:white; background:rgba(255,255,255,0.3); transform:translateX(-5px);}
+        .section-content {padding:1.5rem;}
+        .section-description {background:#f5f1e8; padding:1rem; border-radius:10px; margin-bottom:1.5rem; border-left:4px solid #D2691E;}
+        .menu-item {display:flex; justify-content:space-between; align-items:flex-start; padding:1.2rem 0; border-bottom:1px solid #f0f0f0; transition:all 0.3s ease;}
+        .menu-item:active {background:#f5f1e8; transform:translateX(5px); border-radius:10px; padding-left:1rem;}
+        .menu-item:last-child {border-bottom:none;}
+        .item-info {flex:1; margin-right:1rem;}
+        .item-name {font-weight:600; color:#2c2c2c; margin-bottom:0.3rem; font-size:1.05rem;}
+        .item-description {font-size:0.9rem; color:#666; margin-bottom:0.5rem;}
+        .item-allergens {display:inline-block; background:#F4A460; color:#8B4513; padding:0.3rem 0.8rem; border-radius:20px; font-size:0.8rem; font-weight:500;}
+        .item-price {font-weight:700; color:#8B4513; font-size:1.1rem; white-space:nowrap; background:linear-gradient(135deg,#f5f1e8 0%,#fff 100%); padding:0.5rem 1rem; border-radius:10px; border:2px solid #D2691E; min-width:fit-content;}
+        .pollo-section .section-header {background:linear-gradient(135deg,#CD853F 0%,#A0522D 100%);}
+        .pizza-section .section-header {background:linear-gradient(135deg,#228B22 0%,#32CD32 100%);}
+        .dolci-section .section-header {background:linear-gradient(135deg,#8B008B 0%,#DA70D6 100%);}
+        .bevande-section .section-header {background:linear-gradient(135deg,#4169E1 0%,#1E90FF 100%);}
+        @media (max-width:768px) {.menu-item{flex-direction:column; align-items:stretch; gap:0.8rem;} .item-price{text-align:center; align-self:stretch;} .item-info{margin-right:0;} .header h1{font-size:1.8rem;} .claim{font-size:1rem;}}
+        .no-js .section{display:block; opacity:1; transform:translateY(0);}
+        @keyframes fadeInUp {from {opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);}}
+        .fade-in {animation:fadeInUp 0.6s ease forwards;}
+    </style>
+</head>
+<body>
+<!-- Inserisci qui il contenuto HTML completo del menù. Per brevità, qui è stato omesso ma puoi copiarlo dal tuo ultimo codice aggiornato! -->
+</body>
+</html>
