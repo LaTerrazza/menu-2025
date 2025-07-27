@@ -1,51 +1,414 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menù La Terrazza 2025</title>
-    <style>
-        * {margin:0; padding:0; box-sizing:border-box;}
-        body {font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height:1.6; color:#2c2c2c; background:linear-gradient(135deg,#f5f1e8 0%,#fff9ed 100%); overflow-x:hidden;}
-        .header {background:linear-gradient(135deg,#8B4513 0%,#A0522D 100%); color:white; text-align:center; padding:2rem 1rem; position:sticky; top:0; z-index:100; box-shadow:0 4px 20px rgba(139,69,19,0.3);}
-        .header h1 {font-size:2.2rem; font-weight:700; margin-bottom:0.5rem; text-shadow:0 2px 4px rgba(0,0,0,0.2);}
-        .claim {font-size:1.1rem; font-style:italic; margin-bottom:1.5rem; color:#F4A460; font-weight:300;}
-        .download-btn {display:inline-block; padding:0.8rem 2rem; background:rgba(244,164,96,0.3); border:2px solid #F4A460; color:white; text-decoration:none; border-radius:50px; font-weight:600; transition:all 0.3s ease; backdrop-filter:blur(10px);}
-        .download-btn:hover {background:#F4A460; color:#8B4513; transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,0.2);}
-        .nav-container {padding:1rem; background:white; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:sticky; top:0; z-index:99;}
-        .nav-grid {display:grid; grid-template-columns:1fr; gap:0.8rem; max-width:600px; margin:0 auto;}
-        .nav-item {display:block; padding:1.2rem; background:linear-gradient(135deg,#fff 0%,#f5f1e8 100%); border:2px solid #D2691E; border-radius:15px; text-decoration:none; color:#8B4513; font-weight:600; text-align:center; transition:all 0.3s ease; position:relative; overflow:hidden; cursor:pointer; font-size:1.1rem;}
-        .nav-item::before {content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(135deg,#8B4513 0%,#A0522D 100%); transition:all 0.3s ease; z-index:-1;}
-        .nav-item:active::before, .nav-item:hover::before {left:0;}
-        .nav-item:active, .nav-item:hover {color:white; transform:scale(0.98); box-shadow:0 8px 25px rgba(139,69,19,0.3);}
-        .allergen-notice {margin:1rem; padding:1.5rem; background:linear-gradient(135deg,#F4A460 0%,#DEB887 100%); border-radius:15px; border:2px solid #D2691E; font-weight:600; box-shadow:0 4px 15px rgba(139,69,19,0.2); color:#8B4513;}
-        .section {margin:2rem 1rem; background:white; border-radius:20px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.1); display:none; opacity:0; transform:translateY(20px); transition:all 0.4s ease;}
-        .section.active {display:block; opacity:1; transform:translateY(0);}
-        .section-header {background:linear-gradient(135deg,#8B4513 0%,#A0522D 100%); color:white; padding:1.5rem; position:relative; overflow:hidden;}
-        .section-header h2 {font-size:1.5rem; margin-bottom:0.5rem; position:relative; z-index:2;}
-        .back-link {color:rgba(255,255,255,0.9); text-decoration:none; font-size:1rem; display:inline-flex; align-items:center; transition:all 0.3s ease; cursor:pointer; padding:0.5rem 1rem; background:rgba(255,255,255,0.2); border-radius:25px; margin-bottom:1rem;}
-        .back-link:active, .back-link:hover {color:white; background:rgba(255,255,255,0.3); transform:translateX(-5px);}
-        .section-content {padding:1.5rem;}
-        .section-description {background:#f5f1e8; padding:1rem; border-radius:10px; margin-bottom:1.5rem; border-left:4px solid #D2691E;}
-        .menu-item {display:flex; justify-content:space-between; align-items:flex-start; padding:1.2rem 0; border-bottom:1px solid #f0f0f0; transition:all 0.3s ease;}
-        .menu-item:active {background:#f5f1e8; transform:translateX(5px); border-radius:10px; padding-left:1rem;}
-        .menu-item:last-child {border-bottom:none;}
-        .item-info {flex:1; margin-right:1rem;}
-        .item-name {font-weight:600; color:#2c2c2c; margin-bottom:0.3rem; font-size:1.05rem;}
-        .item-description {font-size:0.9rem; color:#666; margin-bottom:0.5rem;}
-        .item-allergens {display:inline-block; background:#F4A460; color:#8B4513; padding:0.3rem 0.8rem; border-radius:20px; font-size:0.8rem; font-weight:500;}
-        .item-price {font-weight:700; color:#8B4513; font-size:1.1rem; white-space:nowrap; background:linear-gradient(135deg,#f5f1e8 0%,#fff 100%); padding:0.5rem 1rem; border-radius:10px; border:2px solid #D2691E; min-width:fit-content;}
-        .pollo-section .section-header {background:linear-gradient(135deg,#CD853F 0%,#A0522D 100%);}
-        .pizza-section .section-header {background:linear-gradient(135deg,#228B22 0%,#32CD32 100%);}
-        .dolci-section .section-header {background:linear-gradient(135deg,#8B008B 0%,#DA70D6 100%);}
-        .bevande-section .section-header {background:linear-gradient(135deg,#4169E1 0%,#1E90FF 100%);}
-        @media (max-width:768px) {.menu-item{flex-direction:column; align-items:stretch; gap:0.8rem;} .item-price{text-align:center; align-self:stretch;} .item-info{margin-right:0;} .header h1{font-size:1.8rem;} .claim{font-size:1rem;}}
-        .no-js .section{display:block; opacity:1; transform:translateY(0);}
-        @keyframes fadeInUp {from {opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);}}
-        .fade-in {animation:fadeInUp 0.6s ease forwards;}
-    </style>
-</head>
-<body>
-<!-- Inserisci qui il contenuto HTML completo del menù. Per brevità, qui è stato omesso ma puoi copiarlo dal tuo ultimo codice aggiornato! -->
-</body>
-</html>
+<div style="max-width:950px;margin:auto;padding:16px;line-height:1.7;font-family:'Montserrat',Arial,sans-serif;">
+
+  <!-- INTESTAZIONE -->
+  <h1 style="text-align:center;margin-bottom:1em;font-weight:500;font-size:2.2em;">Menù La Terrazza 2025</h1>
+
+  <!-- CTA Scarica il Menù Digitale -->
+  <h2 style="text-align:center;margin:30px 0 30px 0;">
+    <a href="https://www.restaurantlaterrazza.it/wp-content/uploads/2025/07/LA-TERRAZZA-MENU-tavoli-COMPLETO-2025-luglio.pdf"
+       target="_blank"
+       rel="noopener noreferrer"
+       style="display:inline-block;padding:0.8em 2.6em;font-size:1.35em;background:#e47911;color:#fff;border-radius:24px;text-decoration:none;font-weight:700;box-shadow:0 2px 12px #0001;letter-spacing:.01em;">
+      SCARICA IL MENÙ DIGITALE
+    </a>
+  </h2>
+
+  <!-- Sommario Navigabile -->
+  <nav id="sommario" style="margin:2em 0 2.5em 0;padding:1.2em 1em 1.3em 1em;background:#f8f5ee;border-radius:16px;">
+    <strong style="display:block;color:#234a71;font-size:1.09em;margin-bottom:0.6em;">Vai direttamente alla sezione che ti interessa:</strong>
+    <ul style="columns:2;max-width:600px;margin:auto;padding-left:1em;font-size:1.08em;list-style-type:square;">
+      <li><a href="#antipasti" style="color:#b02727;">Antipasti</a></li>
+      <li><a href="#primipiatti" style="color:#b02727;">Primi Piatti</a></li>
+      <li><a href="#secondicarne" style="color:#b02727;">Secondi Piatti di Carne</a></li>
+      <li><a href="#polloscucchiato" style="color:#b02727;">Pollo Scucchiato</a></li>
+      <li><a href="#secondipesce" style="color:#b02727;">Secondi Piatti di Pesce</a></li>
+      <li><a href="#contorni" style="color:#b02727;">Contorni</a></li>
+      <li><a href="#formaggi" style="color:#b02727;">Formaggi</a></li>
+      <li><a href="#pizze" style="color:#b02727;">Pizze Classiche</a></li>
+      <li><a href="#pizze60cm" style="color:#b02727;">Pizze 60 cm</a></li>
+      <li><a href="#saltimbocca" style="color:#b02727;">Saltimbocca</a></li>
+      <li><a href="#dolci" style="color:#b02727;">Dolci, Gelati, Frutta</a></li>
+      <li><a href="#bevande" style="color:#b02727;">Bevande</a></li>
+      <li><a href="#coperto" style="color:#b02727;">Coperto</a></li>
+      <li><a href="#allergeni" style="color:#b02727;">Tabella Allergeni</a></li>
+    </ul>
+  </nav>
+
+  <!-- Come usare il menù -->
+  <div style="background:#f5eddb;padding:1em 1.3em 1em 1.3em;border-radius:12px;margin-bottom:2em;">
+    <strong style="font-size:1.08em;color:#444;">Come usare il menù digitale:</strong>
+    <ul style="margin:0 0 0 1.3em;padding:0 0 0 0.2em;">
+      <li>Clicca sulla sezione del menù che vuoi consultare dal <b>sommario</b> qui sopra per andare direttamente alla lista dei piatti.</li>
+      <li>Per tornare rapidamente al sommario clicca su <b>"⇧ Torna al Sommario"</b> che trovi in ogni sezione.</li>
+      <li>I piatti sono suddivisi per tipologia, ognuno con ingredienti/allergeni e prezzi.</li>
+      <li>Per domande su <b>allergie e intolleranze</b>, chiedi sempre al personale.</li>
+      <li>Scarica il menù PDF se preferisci una consultazione offline.</li>
+    </ul>
+  </div>
+
+  <!-- Avviso allergeni -->
+  <p style="background:#ffe4b2;padding:1.1em 1em;border-radius:10px;color:#533700;font-weight:600;font-size:1.06em;">
+    Si invita la gentile clientela a far presente eventuali allergie o intolleranze.<br>
+    I primi piatti possono essere preparati anche con pasta senza glutine (riso, mais, farro, integrale).<br>
+    Tutte le pizze sono disponibili anche con impasto integrale o senza glutine.<br>
+    Il Pollo Scucchiato è idoneo anche ai celiaci.
+  </p>
+
+  <!-- ANTIPASTI -->
+  <h2 id="antipasti">Antipasti</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Piatti</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Antipasto all’italiana</td><td>Lattosio</td><td>€ 7.00</td></tr>
+        <tr><td>Antipasto alla carrettiera (Salumi e formaggi tagliati a mano)</td><td>Lattosio</td><td>€ 7.00</td></tr>
+        <tr><td>Antipasto alla Terrazza (piatto di verdure di stagione più piatto di salumi e formaggi)</td><td>Lattosio</td><td>€ 16.00</td></tr>
+        <tr><td>Tagliere di salumi e formaggi</td><td>Lattosio</td><td>€ 15.00</td></tr>
+        <tr><td>Verdure grigliate (grigliate e sott’olio di nostra produzione)</td><td></td><td>€ 4.00 piatto piccolo / € 7.50 tris piatto medio</td></tr>
+        <tr><td>Parmigiana di melanzane</td><td>Glutine, Uova, Lattosio</td><td>€ 6.00</td></tr>
+        <tr><td>Mozzarella di bufala gr 250</td><td>Lattosio</td><td>€ 5.00</td></tr>
+        <tr><td>Alici marinate (piatto piccolo)</td><td>Pesce</td><td>€ 4.00</td></tr>
+        <tr><td>Bruschette assortite (varie verdure, salumi e mozzarella, 6pz)</td><td>Glutine, Lattosio</td><td>€ 6.00</td></tr>
+        <tr><td>Bruschette con pomodorini</td><td>Glutine, Lattosio</td><td>€ 3.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PRIMI PIATTI -->
+  <h2 id="primipiatti">Primi Piatti</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Piatti</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Spaghetti al filetto di pomodoro</td><td>Glutine</td><td>€ 6.50</td></tr>
+        <tr><td>Spaghetti alle noci</td><td>Glutine, Noci, Pesce (acciughe)</td><td>€ 7.50</td></tr>
+        <tr><td>Spaghetti alla carbonara</td><td>Glutine, Uova, Lattosio</td><td>€ 7.50</td></tr>
+        <tr><td>Tagliatelle con funghi porcini*</td><td>Glutine, Lattosio, Uova</td><td>€ 8.50</td></tr>
+        <tr><td>Risotto ai funghi porcini* (attesa 20 min)</td><td>Lattosio</td><td>€ 8.50</td></tr>
+        <tr><td>Penne all’arrabbiata</td><td>Glutine</td><td>€ 6.50</td></tr>
+        <tr><td>Penne alla terrazza (Pomodoro, bacon affumicato, radicchio, formaggio grattugiato)</td><td>Glutine, Lattosio</td><td>€ 7.50</td></tr>
+        <tr><td>Linguine allo scarpariello (con pomodorini interi)</td><td>Glutine, Lattosio</td><td>€ 7.50</td></tr>
+        <tr><td>Fusilli al tegamino</td><td>Glutine, Lattosio</td><td>€ 7.00</td></tr>
+        <tr><td>Gnocchi alla sorrentina</td><td>Glutine, Lattosio</td><td>€ 7.00</td></tr>
+        <tr><td>Linguine alla puttanesca</td><td>Glutine, Pesce</td><td>€ 7.50</td></tr>
+        <tr><td>Ravioli* ricotta e spinaci al sugo di pomodoro</td><td>Glutine, Lattosio, Uova</td><td>€ 7.50</td></tr>
+        <tr><td>Paccheri pomodorini e baccalà</td><td>Glutine, Pesce</td><td>€ 9.00</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:90%;margin:0.5em 0 0 0;">* Prodotto surgelato</p>
+  </div>
+
+  <!-- SECONDI DI CARNE -->
+  <h2 id="secondicarne">Secondi Piatti di Carne</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Piatti</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Bistecca di vitello ai ferri</td><td></td><td>€ 10.00</td></tr>
+        <tr><td>Cotoletta con patatine</td><td>Glutine, Uova</td><td>€ 7.50</td></tr>
+        <tr><td>Scaloppine al limone</td><td>Glutine, Lattosio</td><td>€ 7.00</td></tr>
+        <tr><td>Scaloppine ai funghi porcini*</td><td>Glutine</td><td>€ 8.50</td></tr>
+        <tr><td>Costarizze di maiale al forno con pupacchiole (4 pezzi)</td><td></td><td>€ 8.00</td></tr>
+        <tr><td>Trippa alla parmigiana</td><td>Lattosio</td><td>€ 8.00</td></tr>
+        <tr><td>Salsiccia al forno con patate (2 pezzi)</td><td></td><td>€ 7.50</td></tr>
+        <tr><td>Fagioli alla messicana</td><td></td><td>€ 7.50</td></tr>
+        <tr><td>Coniglio scucchiato al forno o alla cacciatora</td><td></td><td>€ 9.00 a porz.</td></tr>
+        <tr><td>Grigliata mista con contorno (min 3 tipi di carne)</td><td></td><td>€ 11.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- POLLO SCUCCHIATO -->
+  <h2 id="polloscucchiato">Pollo Scucchiato®</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <p>Pollo da 1,100 kg, fresco, di prima qualità, 100% italiano, tagliato a pezzi e cotto espresso nel forno a legna, condito con sale, olio e aromi.<br>
+     <b>Può essere consumato anche dai celiaci</b>.
+  </p>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Piatti</th>
+          <th>Allergeni</th>
+          <th>Intero / Mezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Pollo Scucchiato con patate* al forno</td><td>**</td><td>€ 18.00 / € 10.00</td></tr>
+        <tr><td>Pollo Scucchiato con patate* e cipolla</td><td>**</td><td>€ 19.50 / € 11.00</td></tr>
+        <tr><td>Pollo Scucchiato con patate* e funghi (porcini*, pleurotus, champignon)</td><td>**</td><td>€ 21.50 / € 12.00</td></tr>
+        <tr><td>Pollo Scucchiato con patate* e peperoni</td><td>**</td><td>€ 20.00 / € 11.00</td></tr>
+        <tr><td>Pollo Scucchiato con patate* e provola</td><td>Lattosio</td><td>€ 20.00 / € 11.00</td></tr>
+        <tr><td>Pollo Scucchiato con patate* funghi e provola</td><td>Lattosio</td><td>€ 23.50 / € 12.50</td></tr>
+        <tr><td>Pollo Scucchiato alla cacciatora (pomodoro e cipolla, senza patate)</td><td>**</td><td>€ 18.00 / € 10.00</td></tr>
+        <tr><td>Pollo Scucchiato senza patate</td><td>**</td><td>€ 14.00 / € 7.00</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:90%">* Prodotto surgelato <br>** Può contenere tracce di glutine, lattosio o altri allergeni.</p>
+  </div>
+
+  <!-- SECONDI DI PESCE -->
+  <h2 id="secondipesce">Secondi Piatti di Pesce</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Piatti</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Frittura di calamari* o seppie*</td><td>Pesce, Glutine</td><td>€ 10.00</td></tr>
+        <tr><td>Frittura di alici</td><td>Pesce, Glutine</td><td>€ 7.00</td></tr>
+        <tr><td>Gamberoni* alla griglia</td><td>Crostacei</td><td>€ 9.00</td></tr>
+        <tr><td>Impepata di cozze</td><td>Molluschi</td><td>€ 7.00</td></tr>
+        <tr><td>Polipo* affogato alla napoletana</td><td>Pesce</td><td>€ 10.00</td></tr>
+        <tr><td>Stoccafisso arreganato o baccalà fritto</td><td>Pesce, Sedano, Glutine</td><td>€ 8.00</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:90%">* Prodotto surgelato</p>
+  </div>
+
+  <!-- CONTORNI -->
+  <h2 id="contorni">Contorni</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Piatti</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Patate* fritte o crocchè* (10 pezzi)</td><td>Glutine</td><td>€ 3.50</td></tr>
+        <tr><td>Patate* al forno</td><td>Glutine, Lattosio, Solfiti</td><td>€ 4.00</td></tr>
+        <tr><td>Patate* al forno con porcini*</td><td>Glutine, Lattosio, Solfiti</td><td>€ 6.00</td></tr>
+        <tr><td>Verdure cotte di stagione a porzione</td><td></td><td>€ 4.00</td></tr>
+        <tr><td>Tris di contorni dello chef (verdure cotte di stagione)</td><td></td><td>€ 7.50 piatto medio / € 11.00 piatto pizza</td></tr>
+        <tr><td>Insalata Mista</td><td></td><td>€ 3.50</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:90%">* Prodotto surgelato</p>
+  </div>
+
+  <!-- FORMAGGI -->
+  <h2 id="formaggi">Formaggi</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Piatti</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Scamorza arrostita</td><td>Lattosio</td><td>€ 5.00</td></tr>
+        <tr><td>Scamorza arrostita con porcini*</td><td>Lattosio</td><td>€ 7.00</td></tr>
+        <tr><td>Grana Padano, Pecorino Sardo, Provolone piccante</td><td>Lattosio</td><td>€ 4.00</td></tr>
+        <tr><td>Tagliere di formaggi</td><td>Lattosio</td><td>€ 11.00</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:90%">* Prodotto surgelato</p>
+  </div>
+
+  <!-- PIZZE CLASSICHE -->
+  <h2 id="pizze">Pizze Classiche</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Pizza</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Margherita</td><td>Glutine, Lattosio</td><td>€ 5.00</td></tr>
+        <tr><td>Marinara</td><td>Glutine</td><td>€ 4.50</td></tr>
+        <tr><td>Diavola</td><td>Glutine, Lattosio</td><td>€ 6.00</td></tr>
+        <tr><td>Capricciosa</td><td>Glutine, Lattosio, Uovo</td><td>€ 7.50</td></tr>
+        <tr><td>Quattro stagioni</td><td>Glutine, Lattosio, Uovo</td><td>€ 7.50</td></tr>
+        <tr><td>Wurstel</td><td>Glutine, Lattosio</td><td>€ 6.00</td></tr>
+        <tr><td>Prosciutto cotto</td><td>Glutine, Lattosio</td><td>€ 6.50</td></tr>
+        <tr><td>Bufalina</td><td>Glutine, Lattosio</td><td>€ 7.50</td></tr>
+        <tr><td>Salsiccia e friarielli</td><td>Glutine, Lattosio</td><td>€ 7.50</td></tr>
+        <tr><td>Ortolana</td><td>Glutine, Lattosio</td><td>€ 7.00</td></tr>
+        <tr><td>Napoli</td><td>Glutine, Lattosio, Pesce</td><td>€ 6.50</td></tr>
+        <tr><td>Tonno e cipolla</td><td>Glutine, Lattosio, Pesce</td><td>€ 7.00</td></tr>
+        <tr><td>Quattro formaggi</td><td>Glutine, Lattosio</td><td>€ 7.50</td></tr>
+        <tr><td>Calzone ripieno</td><td>Glutine, Lattosio, Uovo</td><td>€ 7.50</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:90%">Tutte le pizze sono disponibili anche con impasto integrale o senza glutine (+ € 1.50)</p>
+  </div>
+
+  <!-- PIZZE 60 CM -->
+  <h2 id="pizze60cm">Pizze 60 cm</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Pizza 60 cm</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Margherita 60 cm</td><td>Glutine, Lattosio</td><td>€ 16.00</td></tr>
+        <tr><td>Diavola 60 cm</td><td>Glutine, Lattosio</td><td>€ 20.00</td></tr>
+        <tr><td>Capricciosa 60 cm</td><td>Glutine, Lattosio, Uovo</td><td>€ 25.00</td></tr>
+        <tr><td>Ortolana 60 cm</td><td>Glutine, Lattosio</td><td>€ 18.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SALTIMBOCCA -->
+  <h2 id="saltimbocca">Saltimbocca</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Saltimbocca</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Classico (mozzarella e prosciutto cotto)</td><td>Glutine, Lattosio</td><td>€ 6.50</td></tr>
+        <tr><td>Ortolano (mozzarella e verdure)</td><td>Glutine, Lattosio</td><td>€ 6.50</td></tr>
+        <tr><td>Salsiccia e friarielli</td><td>Glutine, Lattosio</td><td>€ 7.00</td></tr>
+        <tr><td>Wurstel e patatine</td><td>Glutine, Lattosio</td><td>€ 7.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DOLCI -->
+  <h2 id="dolci">Dolci, Gelati, Frutta</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Dolci, Gelati, Frutta</th>
+          <th>Allergeni</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Tiramisù della casa</td><td>Lattosio, Glutine, Uovo, Arachidi</td><td>€ 4.00</td></tr>
+        <tr><td>Cheesecake al bicchiere con cioccolato o frutti di bosco</td><td>Lattosio, Glutine</td><td>€ 4.00</td></tr>
+        <tr><td>Torta di mele</td><td>Glutine, Mandorle, Uova</td><td>€ 4.00</td></tr>
+        <tr><td>Panna cotta</td><td>Lattosio</td><td>€ 4.00</td></tr>
+        <tr><td>Baba, Delizia al limone, torte del giorno</td><td>Lattosio, Glutine, Uovo, ecc.</td><td>€ 4.00</td></tr>
+        <tr><td>Tartufo*</td><td>Lattosio</td><td>€ 4.00</td></tr>
+        <tr><td>Tartufo* affogato con caffè o liquore</td><td>Lattosio</td><td>€ 5.00</td></tr>
+        <tr><td>Focaccia con Nutella</td><td>Lattosio, Soia (Nutella)</td><td>€ 5.00</td></tr>
+        <tr><td>Soufflè* al cioccolato</td><td>Lattosio, Glutine</td><td>€ 4.00</td></tr>
+        <tr><td>Waffel* con Nutella e panna</td><td>Lattosio, Glutine, Soia (Nutella)</td><td>€ 4.00</td></tr>
+        <tr><td>Frutta di stagione (a porzione)</td><td></td><td>€ 3.00</td></tr>
+        <tr><td>Caffè</td><td></td><td>€ 1.00</td></tr>
+        <tr><td>Liquori e amari della casa</td><td></td><td>€ 2.00</td></tr>
+        <tr><td>Grappa, Fernet, Jägermeister, Amaro del Capo</td><td></td><td>€ 2.50</td></tr>
+        <tr><td>Cognac, whisky, rum, grappe invecchiate</td><td></td><td>€ 3.00</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:90%">* Prodotto surgelato</p>
+  </div>
+
+  <!-- BEVANDE -->
+  <h2 id="bevande">Bevande</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Bevanda</th>
+          <th>Quantità</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Nastro Azzurro</td><td>66 cl</td><td>€ 4.00</td></tr>
+        <tr><td>Tuborg</td><td>66 cl</td><td>€ 4.00</td></tr>
+        <tr><td>Fischer</td><td>65 cl</td><td>€ 6.00</td></tr>
+        <tr><td>Franziskaner, Paulaner</td><td>50 cl</td><td>€ 4.00</td></tr>
+        <tr><td>Tennents</td><td>33 cl</td><td>€ 4.00</td></tr>
+        <tr><td>Ceres</td><td>33 cl</td><td>€ 4.00</td></tr>
+        <tr><td>Peroni Gran Riserva</td><td>50 cl</td><td>€ 4.00</td></tr>
+        <tr><td>Tuborg</td><td>33 cl</td><td>€ 2.50</td></tr>
+        <tr><td>Birra senza glutine</td><td>33 cl</td><td>€ 2.50</td></tr>
+        <tr><td>Vino della casa</td><td>750 ml</td><td>€ 5.00</td></tr>
+        <tr><td>Vino della casa</td><td>500 ml</td><td>€ 3.50</td></tr>
+        <tr><td>Vino della casa</td><td>250 ml</td><td>€ 2.00</td></tr>
+        <tr><td>Coca-Cola</td><td>1 l</td><td>€ 4.00</td></tr>
+        <tr><td>Coca-Cola, Fanta, Sprite</td><td>33 cl</td><td>€ 2.00</td></tr>
+        <tr><td>Gassosa</td><td>0,20 cl</td><td>€ 1.50</td></tr>
+        <tr><td>Acqua (Ferrarelle, Natia)</td><td>1 l</td><td>€ 2.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COPERTO -->
+  <h2 id="coperto" style="margin-top:2em;">Coperto</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <p>€ 2.00</p>
+
+  <!-- ALLERGENI -->
+  <h2 id="allergeni">Tabella Allergeni</h2>
+  <div><a href="#sommario" style="font-size:90%;color:#e47911;text-decoration:underline;display:inline-block;margin-bottom:0.6em;">⇧ Torna al Sommario</a></div>
+  <div style="background:#f6f6e6;padding:1em 1.5em;border-radius:7px;">
+    <p>
+      Negli alimenti e nelle bevande preparati e somministrati in questo esercizio, possono essere contenuti ingredienti o coadiuvanti considerati allergeni.<br>
+      Le informazioni circa la presenza di sostanze o prodotti che provocano allergie o intolleranze sono disponibili rivolgendosi al personale in servizio.
+    </p>
+    <strong>Elenco allergeni principali (Reg. UE 1169/2011):</strong>
+    <ol>
+      <li>Cereali contenenti glutine (grano, segale, orzo, avena, farro, kamut...)</li>
+      <li>Crostacei e prodotti a base di crostacei</li>
+      <li>Uova e prodotti a base di uova</li>
+      <li>Pesce e prodotti a base di pesce</li>
+      <li>Arachidi e prodotti a base di arachidi</li>
+      <li>Soia e prodotti a base di soia</li>
+      <li>Latte e prodotti a base di latte (lattosio incluso)</li>
+      <li>Frutta a guscio (mandorle, nocciole, noci, pistacchi...)</li>
+      <li>Sedano e prodotti a base di sedano</li>
+      <li>Senape e prodotti a base di senape</li>
+      <li>Semi di sesamo e prodotti a base di semi di sesamo</li>
+      <li>Anidride solforosa e solfiti</li>
+      <li>Lupini e prodotti a base di lupini</li>
+      <li>Molluschi e prodotti a base di molluschi</li>
+    </ol>
+  </div>
+
+  <br><br>
+</div>
